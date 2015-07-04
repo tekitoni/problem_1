@@ -26,6 +26,10 @@ public class Main{
             flag &= checkTargetType(file, args.getType());
         }
 	
+	 if(args.getSize() != null){
+            flag &= checkTargetSize(file, args.getSize());
+        }
+	
         return flag;
     }
     
@@ -33,7 +37,8 @@ public class Main{
         String name = file.getName();
         return name.indexOf(pattern) >= 0;
     }
-        private boolean checkTargetType(File file, String type){
+    
+    private boolean checkTargetType(File file, String type){
         type = type.toLowerCase();
         if(type.equals("d") || type.equals("directory")){
             return file.isDirectory();
@@ -43,6 +48,26 @@ public class Main{
         }
         else if(type.equals("h") || type.equals("hidden")){
             return file.isHidden();
+        }
+        return false;
+    }
+    
+       private boolean checkTargetSize(File file, String sizeString){
+        if(file.isFile()){
+            char sign = sizeString.charAt(0);
+            String string = sizeString.substring(1);
+            int size = Integer.parseInt(string);
+
+            switch(sign){
+            case '>':
+                return file.length() > size;
+            case '<':
+                return file.length() < size;
+            case '=':
+                return file.length() == size;
+            default:
+                // ignore
+            }
         }
         return false;
     }
