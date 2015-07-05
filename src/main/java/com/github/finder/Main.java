@@ -1,19 +1,6 @@
 package com.github.finder;
 
-public class Main{
-    public Main(String[] arguments){
-       Args args = parseArguments(arguments);
-
-        Finder finder = new Finder(args);
-        for(String base: args){
-            String[] items = finder.find(base);
-            for(String item: items){
-                System.out.println(item);
-            }
-        }
-    }
-    
-     　private Args parseArguments(String[] arguments){
+ private Args parseArguments(String[] arguments){
         Args args = new Args();
         try {
             CmdLineParser parser = new CmdLineParser(args);
@@ -21,14 +8,9 @@ public class Main{
         } catch (CmdLineException e) {
         }
         return args;
-    }
-
-    public static void main(String[] args){
-        new Main(args);
-    }
-}
-
-    private boolean isTarget(File file){
+  }
+    
+  private boolean isTarget(File file){
         boolean flag = true;
         if(args.getName() != null){
             flag &= checkTargetName(file, args.getName());
@@ -46,12 +28,14 @@ public class Main{
 	
 	
         return flag;
-    }
+   }
     
-    private boolean checkTargetName(File file, String pattern){
+    
+   private boolean checkTargetName(File file, String pattern){
         String name = file.getName();
         return name.indexOf(pattern) >= 0;
-    }
+    }  
+    
     
     private boolean checkTargetType(File file, String type){
         type = type.toLowerCase();
@@ -67,7 +51,9 @@ public class Main{
         return false;
     }
     
-       private boolean checkTargetSize(File file, String sizeString){
+    
+    
+    private boolean checkTargetSize(File file, String sizeString){
         if(file.isFile()){
             char sign = sizeString.charAt(0);
             String string = sizeString.substring(1);
@@ -86,8 +72,9 @@ public class Main{
         }
         return false;
     }
-    
-        private boolean checkGrep(File file, String pattern){
+
+
+     private boolean checkGrep(File file, String pattern){
         if(file.isFile()){
             try(BufferedReader in = new BufferedReader(new FileReader(file))){
                 String line;
@@ -99,7 +86,22 @@ public class Main{
             }
         }
         return false;
+     }
+     
+public class Main{
+    public Main(String[] arguments){
+       Args args = parseArguments(arguments);
+
+        Finder finder = new Finder(args);
+        for(String base: args){
+            String[] items = finder.find(base);
+            for(String item: items){
+                System.out.println(item);
+            }
+        }
+     }
+    
+    public static void main(String[] args){
+        new Main(args);
     }
-    
-    
-    
+ }
